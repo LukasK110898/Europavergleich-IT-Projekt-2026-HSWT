@@ -128,7 +128,7 @@ Alle Diagramme gibt es in **zwei Designs**, damit für Präsentation und Bericht
 | `seaborn` (Standard) | Klar, weiß, Gitterlinien – gut für den Bericht | `Diagramme_2023/`, `Diagramme_aktuell/`, … |
 | `onedark` ([matplotx](https://github.com/nschloe/matplotx)-Theme) | Dunkler, moderner Look mit eigener Farbpalette – gut für Folien | `Diagramme_2023_onedark/`, `Diagramme_aktuell_onedark/`, … |
 
-**Umschalten:** In der ersten Code-Zelle `DIAGRAMM_STIL = "onedark"` setzen (oder die Umgebungsvariable `DIAGRAMM_STIL=onedark`) und das Notebook erneut komplett ausführen – dank Daten-Cache dauert der zweite Durchlauf nur Sekunden. Die Funktion `diagramm_pfad()` hängt automatisch den Suffix `_onedark` an die Ordnernamen, sodass sich die beiden Diagramm-Sätze nicht überschreiben. Jedes Land behält in beiden Stilen jeweils eine feste Farbe.
+**Automatischer Export:** Bei jedem vollständigen Notebook-Lauf wird jedes Diagramm zweimal gespeichert: einmal im normalen Ordner und einmal mit `matplotx.styles.onedark` im entsprechenden Ordner mit dem Suffix `_onedark`. Ein manuelles Umschalten oder ein zweiter Notebook-Lauf ist nicht mehr nötig. Jedes Land behält in beiden Stilen dieselbe feste Farbe.
 
 ---
 

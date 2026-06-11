@@ -123,6 +123,17 @@ UMGESETZTE KORREKTUREN
     - Unbekannte zukuenftige Energietraeger werden sichtbar gemeldet und mit
       dem Other-Faktor statt still mit null bewertet.
 
+15. Automatischer OneDark-Export
+    - Die zentrale Funktion speichere_diagramm() exportiert jede erzeugte
+      Figur im selben Notebook-Lauf zweimal.
+    - Die Standardversion landet wie bisher in Diagramme_2023 usw.
+    - Die dunkle Version wird automatisch mit matplotx.styles.onedark nach
+      Diagramme_2023_onedark usw. geschrieben.
+    - Datenfarben bleiben gleich; Hintergrund, Achsen, Beschriftungen,
+      Gitternetz und Legenden werden fuer den dunklen Export angepasst.
+    - Nach dem OneDark-Export wird die Standarddarstellung der Figur wieder
+      hergestellt.
+
 VALIDIERUNG
 - Notebook-JSON ist gueltig.
 - 19 normale Python-Codezellen wurden erfolgreich mit ast.parse geprueft.
