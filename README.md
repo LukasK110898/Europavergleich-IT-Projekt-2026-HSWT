@@ -61,7 +61,7 @@ Bevor ihr das Notebook ausführt, müsst ihr **einmalig** eine Bibliothek nachin
 3. Führt die Zelle aus, indem ihr auf den **Play-Button** links neben der Zelle klickt (oder `Shift + Enter` drückt)
 4. Wartet bis die Installation abgeschlossen ist (~30 Sekunden) – ihr seht unten eine Ausgabe
 
-> **Warum nur diese Pakete?** Alles andere (`pandas`, `matplotlib`, `seaborn`) ist in Colab bereits vorinstalliert. `matplotx` liefert das alternative "pacoty"-Diagramm-Design.
+> **Warum nur diese Pakete?** Alles andere (`pandas`, `matplotlib`, `seaborn`) ist in Colab bereits vorinstalliert. `matplotx` liefert das alternative "onedark"-Diagramm-Design.
 
 > **Wichtig:** Diese Zelle muss nach jedem Neustart der Colab-Sitzung einmal wiederholt werden. Colab "vergisst" installierte Pakete nach einer Weile.
 
@@ -110,16 +110,16 @@ Direkt nach der Länder-Definition gibt es eine Zelle, die **alle** benötigten 
 
 ---
 
-## Zwei Diagramm-Stile: seaborn & pacoty
+## Zwei Diagramm-Stile: seaborn & onedark
 
 Alle Diagramme gibt es in **zwei Designs**, damit für Präsentation und Bericht verschiedene Darstellungen zur Auswahl stehen:
 
 | Stil | Look | Ordner |
 |---|---|---|
 | `seaborn` (Standard) | Klar, weiß, Gitterlinien – gut für den Bericht | `Diagramme_2023/`, `Diagramme_aktuell/`, … |
-| `pacoty` ([matplotx](https://github.com/nschloe/matplotx)-Theme) | Frischer, moderner Look mit eigener Farbpalette | `Diagramme_2023_pacoty/`, `Diagramme_aktuell_pacoty/`, … |
+| `onedark` ([matplotx](https://github.com/nschloe/matplotx)-Theme) | Dunkler, moderner Look mit eigener Farbpalette – gut für Folien | `Diagramme_2023_onedark/`, `Diagramme_aktuell_onedark/`, … |
 
-**Umschalten:** In der ersten Code-Zelle `DIAGRAMM_STIL = "pacoty"` setzen (oder die Umgebungsvariable `DIAGRAMM_STIL=pacoty`) und das Notebook erneut komplett ausführen – dank Daten-Cache dauert der zweite Durchlauf nur Sekunden. Die Funktion `diagramm_pfad()` hängt automatisch den Suffix `_pacoty` an die Ordnernamen, sodass sich die beiden Diagramm-Sätze nicht überschreiben. Jedes Land behält in beiden Stilen jeweils eine feste Farbe.
+**Umschalten:** In der ersten Code-Zelle `DIAGRAMM_STIL = "onedark"` setzen (oder die Umgebungsvariable `DIAGRAMM_STIL=onedark`) und das Notebook erneut komplett ausführen – dank Daten-Cache dauert der zweite Durchlauf nur Sekunden. Die Funktion `diagramm_pfad()` hängt automatisch den Suffix `_onedark` an die Ordnernamen, sodass sich die beiden Diagramm-Sätze nicht überschreiben. Jedes Land behält in beiden Stilen jeweils eine feste Farbe.
 
 ---
 
