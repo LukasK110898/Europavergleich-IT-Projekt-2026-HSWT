@@ -2,6 +2,23 @@
 
 Dieses Projekt analysiert die Stromlast und den Anteil erneuerbarer Energien in verschiedenen europäischen Ländern. Die Daten kommen direkt von der offiziellen europäischen Strombörse (ENTSO-E API).
 
+Untersucht werden sieben Länder: **Deutschland, Frankreich, Spanien, Italien, Polen, Norwegen und Kroatien**.
+
+---
+
+## Welche Analysen enthält das Notebook?
+
+Das Notebook `analyse.ipynb` ist in 25 nummerierte Abschnitte gegliedert. Inhaltlich gehören sie zu vier Themenblöcken:
+
+| Block | Abschnitte | Inhalt |
+|---|---|---|
+| **Setup** | 1–5 | Pakete, Importe, Konfiguration, Daten-Cache und paralleles Vorladen |
+| **Stromlast** | 6–11 | Monatliche/jährliche Last, Lastverläufe der Vorwoche und des aktuellen Monats, Tagesenergie |
+| **Erzeugung & Klima** | 12–20 | Erneuerbaren-Anteil, Last-Heatmaps, Erzeugungsmix nach Energieträgern, Windenergie, CO₂-Intensität und Lebenszyklus-Emissionen |
+| **Präsentationsgrafiken** | 21–25 | Strommix-Fingerabdruck, Erneuerbare vs. CO₂, durchschnittliches Tagesprofil, Prognose vs. Realität, Day-Ahead-Strompreise |
+
+Jeder Abschnitt beginnt mit einer Markdown-Überschrift, die Zweck und Ergebnis der folgenden Codezelle in ein bis zwei Sätzen beschreibt.
+
 ---
 
 ## Was ist ein Jupyter Notebook?
@@ -132,24 +149,29 @@ Alle Diagramme gibt es in **zwei Designs**, damit für Präsentation und Bericht
 
 ### Präsentationsgrafiken
 
-Am Ende des Notebooks werden zusätzlich vier besonders aussagekräftige Vergleichsgrafiken erzeugt:
+Am Ende des Notebooks werden zusätzlich fünf besonders aussagekräftige Vergleichsgrafiken erzeugt:
 
 - `strommix_fingerabdruck_2025.png`: prozentualer Strommix der Länder
 - `erneuerbare_vs_co2_2025.png`: erneuerbarer Anteil gegen CO₂-Intensität
 - `tagesprofil_deutschland_2025.png`: typischer deutscher Tagesverlauf von Last, Solar, Wind und Gas
 - `prognose_vs_realitaet_de_2025.png`: Day-Ahead-Prognosen gegen tatsächliche Last sowie Wind-/Solarerzeugung in der automatisch ermittelten schwierigsten Woche
+- `strompreise_vergleich.png`: durchschnittliche Day-Ahead-Strompreise (€/MWh) 2025 pro Land (siehe Falle 4 unten zu den Gebotszonen)
 
-Alle vier werden normal und automatisch im OneDark-Design gespeichert.
+Alle werden normal und automatisch im OneDark-Design gespeichert.
 
 ---
 
-## Datenqualität: Zwei Fallen der ENTSO-E API
+## Datenqualität: Vier Fallen der ENTSO-E API
 
-Beim Arbeiten mit den Rohdaten sind uns zwei Fallen aufgefallen, die der Code explizit behandelt (gutes Material für die Codesicht in der Präsentation):
+Beim Arbeiten mit den Rohdaten sind uns mehrere Fallen aufgefallen, die der Code explizit behandelt (gutes Material für die Codesicht in der Präsentation):
 
-1. **Auflösungswechsel mitten im Jahr:** Manche Länder stellen ihre Meldeauflösung unterjährig von 60 auf 15 Minuten um (Polen 2024, Norwegen 2025). Wer mit einem festen Zeitintervall rechnet, zählt den 15-Minuten-Teil vierfach – Polens Jahreslast 2024 wäre dann 426 statt 164 TWh. Die Funktion `berechne_energie_mwh()` gewichtet deshalb **jeden Datenpunkt mit seinem echten Zeitintervall**.
+1. **Auflösungswechsel mitten im Jahr:** Manche Länder stellen ihre Meldeauflösung unterjährig von 60 auf 15 Minuten um (Polen 2024, Norwegen 2025). Wer mit einem festen Zeitintervall rechnet, zählt den 15-Minuten-Teil vierfach – Polens Jahreslast 2024 wäre dann 426 statt 164 TWh. Die Funktion `berechne_energie_mwh()` gewichtet deshalb **jeden Datenpunkt mit seinem echten Zeitintervall** (pro Spalte einzeln, da Länder im selben Diagramm unterschiedliche Auflösungen haben können).
 
 2. **Lokale Zeitzonen pro Land:** ENTSO-E liefert jedes Land in seiner eigenen Zeitzone (Europe/Berlin, Europe/Paris, …). Beim Zusammenfügen mehrerer Länder mit `pd.concat` konvertiert pandas still auf UTC – dadurch verrutschten vorher alle Monatsgrenzen (der Januar fiel weg, der „Dezember" war fast leer). Deshalb werden alle Daten **direkt nach dem Laden einheitlich auf UTC** umgestellt.
+
+3. **Erzeugung vs. Verbrauch in einer Tabelle:** Bei der Erzeugung liefert ENTSO-E pro Energieträger teils zwei Werte – „Actual Aggregated" (eingespeiste Erzeugung) und „Actual Consumption" (z.B. Pumpspeicher, der Strom *verbraucht*). Die Funktion `bereinige_generation()` behält nur die tatsächliche Erzeugung, damit Erneuerbaren-Anteil und Lastdeckungsgrad nicht verfälscht werden.
+
+4. **Strompreise laufen über Gebotszonen, nicht über Ländercodes:** Day-Ahead-Preise gibt es nicht pro Land, sondern pro *Gebotszone*. Deutschland ist `DE_LU` (gemeinsame Zone mit Luxemburg), Norwegen hat fünf Zonen (`NO_1`…`NO_5`), Italien mehrere (`IT_NORD`…). Nur `FR`, `ES`, `PL`, `HR` sind Einzelzonen. Die Tabelle `PREIS_ZONEN` (Abschnitt 25) bildet jedes Land auf eine repräsentative Gebotszone ab.
 
 ---
 
