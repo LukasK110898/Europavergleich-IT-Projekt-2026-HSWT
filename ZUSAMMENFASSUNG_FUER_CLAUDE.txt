@@ -134,6 +134,27 @@ UMGESETZTE KORREKTUREN
     - Nach dem OneDark-Export wird die Standarddarstellung der Figur wieder
       hergestellt.
 
+16. Zusaetzliche Praesentationsgrafiken
+    - Strommix-Fingerabdruck 2025: 100-Prozent-Balken fuer sieben
+      Technologiegruppen je Land.
+    - Erneuerbare-vs.-CO2 2025: Blasendiagramm mit erneuerbarem Anteil,
+      Lebenszyklus-CO2-Intensitaet und Jahreserzeugung.
+    - Tagesprofil Deutschland 2025: mittlere lokale Stundenprofile von Last,
+      Solar, Wind und Gas mit markierter Morgen- und Abendspitze.
+    - Alle drei Grafiken verwenden vorhandene Cache-Daten sowie den
+      automatischen Standard-/OneDark-Export.
+
+17. Prognose gegen Realitaet
+    - Neue ENTSO-E-Daten: Day-Ahead-Lastprognose sowie Day-Ahead-Prognosen
+      fuer Solar, Wind Onshore und Wind Offshore in Deutschland 2025.
+    - Die neuen Abfragen werden wie Last und Erzeugung im Ordner daten_cache
+      gespeichert und muessen nur beim ersten Lauf heruntergeladen werden.
+    - Der Code ermittelt automatisch die sieben aufeinanderfolgenden Tage mit
+      der groessten kombinierten Last- und Wind-/Solar-Prognoseabweichung.
+    - Die Grafik zeigt Ist- und Prognosewerte, Ueber-/Unterschaetzung,
+      groesste Einzelabweichung, mittleren Fehler und gewichteten Fehler.
+    - Ergebnisdatei: prognose_vs_realitaet_de_2025.png, normal und OneDark.
+
 VALIDIERUNG
 - Notebook-JSON ist gueltig.
 - 19 normale Python-Codezellen wurden erfolgreich mit ast.parse geprueft.

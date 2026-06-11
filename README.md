@@ -130,6 +130,17 @@ Alle Diagramme gibt es in **zwei Designs**, damit für Präsentation und Bericht
 
 **Automatischer Export:** Bei jedem vollständigen Notebook-Lauf wird jedes Diagramm zweimal gespeichert: einmal im normalen Ordner und einmal mit `matplotx.styles.onedark` im entsprechenden Ordner mit dem Suffix `_onedark`. Ein manuelles Umschalten oder ein zweiter Notebook-Lauf ist nicht mehr nötig. Jedes Land behält in beiden Stilen dieselbe feste Farbe.
 
+### Präsentationsgrafiken
+
+Am Ende des Notebooks werden zusätzlich vier besonders aussagekräftige Vergleichsgrafiken erzeugt:
+
+- `strommix_fingerabdruck_2025.png`: prozentualer Strommix der Länder
+- `erneuerbare_vs_co2_2025.png`: erneuerbarer Anteil gegen CO₂-Intensität
+- `tagesprofil_deutschland_2025.png`: typischer deutscher Tagesverlauf von Last, Solar, Wind und Gas
+- `prognose_vs_realitaet_de_2025.png`: Day-Ahead-Prognosen gegen tatsächliche Last sowie Wind-/Solarerzeugung in der automatisch ermittelten schwierigsten Woche
+
+Alle vier werden normal und automatisch im OneDark-Design gespeichert.
+
 ---
 
 ## Datenqualität: Zwei Fallen der ENTSO-E API
