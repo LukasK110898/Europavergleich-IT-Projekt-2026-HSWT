@@ -3,4 +3,8 @@ __pycache__/
 *.pyc
 .env
 venv/
+<<<<<<< HEAD
 daten_cache/
+=======
+environment.yml
+>>>>>>> a688601 (Spitzenlast der Länder für 2023 hinzugefügt)
