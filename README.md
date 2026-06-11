@@ -55,13 +55,13 @@ Bevor ihr das Notebook ausführt, müsst ihr **einmalig** eine Bibliothek nachin
 2. Tippt folgenden Befehl in die Zelle:
 
 ```python
-!pip install entsoe-py -q
+!pip install entsoe-py matplotx -q
 ```
 
 3. Führt die Zelle aus, indem ihr auf den **Play-Button** links neben der Zelle klickt (oder `Shift + Enter` drückt)
 4. Wartet bis die Installation abgeschlossen ist (~30 Sekunden) – ihr seht unten eine Ausgabe
 
-> **Warum nur dieses eine Paket?** Alles andere (`pandas`, `matplotlib`, `seaborn`) ist in Colab bereits vorinstalliert.
+> **Warum nur diese Pakete?** Alles andere (`pandas`, `matplotlib`, `seaborn`) ist in Colab bereits vorinstalliert. `matplotx` liefert das alternative "pacoty"-Diagramm-Design.
 
 > **Wichtig:** Diese Zelle muss nach jedem Neustart der Colab-Sitzung einmal wiederholt werden. Colab "vergisst" installierte Pakete nach einer Weile.
 
@@ -107,6 +107,19 @@ Jede API-Abfrage wird nach dem ersten Download als Datei im Ordner `daten_cache/
 Direkt nach der Länder-Definition gibt es eine Zelle, die **alle** benötigten Daten mit mehreren gleichzeitigen Abfragen in den Cache lädt. Da die API-Abfragen reine Wartezeit sind, ist der erste Durchlauf damit ca. 4–5x schneller. Alle späteren Zellen finden die Daten dann fertig im Cache vor.
 
 **API-Token:** Der Schlüssel für die ENTSO-E API kann über die Umgebungsvariable `ENTSOE_API_TOKEN` gesetzt werden (empfohlen), ansonsten wird der im Notebook hinterlegte Wert benutzt.
+
+---
+
+## Zwei Diagramm-Stile: seaborn & pacoty
+
+Alle Diagramme gibt es in **zwei Designs**, damit für Präsentation und Bericht verschiedene Darstellungen zur Auswahl stehen:
+
+| Stil | Look | Ordner |
+|---|---|---|
+| `seaborn` (Standard) | Klar, weiß, Gitterlinien – gut für den Bericht | `Diagramme_2023/`, `Diagramme_aktuell/`, … |
+| `pacoty` ([matplotx](https://github.com/nschloe/matplotx)-Theme) | Frischer, moderner Look mit eigener Farbpalette | `Diagramme_2023_pacoty/`, `Diagramme_aktuell_pacoty/`, … |
+
+**Umschalten:** In der ersten Code-Zelle `DIAGRAMM_STIL = "pacoty"` setzen (oder die Umgebungsvariable `DIAGRAMM_STIL=pacoty`) und das Notebook erneut komplett ausführen – dank Daten-Cache dauert der zweite Durchlauf nur Sekunden. Die Funktion `diagramm_pfad()` hängt automatisch den Suffix `_pacoty` an die Ordnernamen, sodass sich die beiden Diagramm-Sätze nicht überschreiben. Jedes Land behält in beiden Stilen jeweils eine feste Farbe.
 
 ---
 
