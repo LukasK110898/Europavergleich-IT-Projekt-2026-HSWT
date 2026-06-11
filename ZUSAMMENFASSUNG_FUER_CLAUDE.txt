@@ -1,0 +1,159 @@
+UEBERGABE AN CLAUDE
+Projekt: Europavergleich-IT-Projekt-2026
+Stand: 11.06.2026
+
+BETROFFENE DATEIEN
+- analyse.ipynb
+- requirements.txt
+
+AUFGABE UND VORGEHEN
+Das Notebook wurde auf Bugs und Logikfehler untersucht. Vor jeder der 20
+Codezellen wurde eine Markdown-Zelle mit nummerierter Ueberschrift und einer
+kurzen Beschreibung eingefuegt. Bestehende Kommentare wurden grundsaetzlich
+beibehalten. Neue fachliche Aenderungen sind im Notebook mit
+"# ANGEPASST:" transparent markiert.
+
+UMGESETZTE KORREKTUREN
+1. Notebook-Struktur
+   - 20 Markdown-Ueberschriften vor 20 Codezellen eingefuegt.
+   - Jede Ueberschrift beschreibt Zweck und Ergebnis der folgenden Zelle.
+
+2. API-Token
+   - Der Token wurde aus analyse.ipynb entfernt.
+   - Er liegt lokal in der durch .gitignore geschuetzten Datei .env und wird
+     mit python-dotenv automatisch in VS Code geladen.
+   - .env.example dient als sichere Vorlage fuer andere Rechner.
+   - Der Token wird in dieser Uebergabedatei nicht erneut ausgeschrieben.
+   - WICHTIG: Der Token wurde im Chat und in einem Screenshot sichtbar und
+     sollte im ENTSO-E-Konto widerrufen und durch einen neuen ersetzt werden.
+
+3. Cache
+   - Cache-Dateinamen enthalten jetzt Datum, Uhrzeit und Zeitzone.
+   - Dadurch kollidieren Abfragen desselben Tages mit unterschiedlichen
+     Uhrzeiten nicht mehr.
+   - Alte Tages-Cachedateien koennen fuer abgeschlossene Zeitraeume weiter
+     verwendet und auf das neue Namensformat migriert werden.
+   - Laufende Zeitraeume verwenden nur den praezisen neuen Cache-Schluessel.
+
+4. Energieumrechnung
+   - berechne_energie_mwh() berechnet Zeitintervalle jetzt fuer jede
+     DataFrame-Spalte separat.
+   - Das behebt falsche Ergebnisse, wenn Laender oder Energietraeger im
+     zusammengefuehrten Index unterschiedliche Aufloesungen haben.
+   - Datenluecken werden nicht mehr als beliebig lange Erzeugungsintervalle
+     gewertet; Intervalle werden auf maximal eine Stunde begrenzt.
+   - Leere Reihen, Einzelwerte und doppelte Zeitstempel werden kontrolliert
+     behandelt.
+
+5. ENTSO-E-Erzeugungsdaten
+   - Neue zentrale Funktion bereinige_generation().
+   - Verbrauchsspalten wie "Actual Consumption" werden ausgeschlossen.
+   - "Actual Aggregated"-Erzeugung wird bevorzugt.
+   - Doppelte Energietraeger-Spalten werden nach der Bereinigung summiert.
+   - hole_generation_daten() liefert nur noch bereinigte Erzeugungsdaten.
+
+6. Wiederholte Jahresabfragen
+   - Neuer In-Memory-Cache GENERATION_JAHRESCACHE.
+   - lade_generation_jahr() verhindert wiederholtes Lesen und Bereinigen
+     derselben Jahresdaten innerhalb eines Notebook-Laufs.
+
+7. Erzeugungsmix 2025
+   - erzeugung_2025 war zuvor nur ein leeres Dictionary, weshalb das Diagramm
+     immer uebersprungen wurde.
+   - Die Daten werden jetzt geladen, in Energie umgerechnet, monatlich in TWh
+     aggregiert und danach visualisiert.
+   - Leere oder nicht verwertbare Laenderdaten werden uebersprungen.
+
+8. Erneuerbare Energien
+   - Der Anteil wird aus bereinigten Erzeugungsdaten berechnet.
+   - "Other renewable" und "Marine" werden ebenfalls beruecksichtigt.
+   - Division durch eine leere oder nicht positive Gesamterzeugung wird
+     verhindert.
+   - Bereits berechnete Jahresergebnisse werden fuer weitere Diagramme
+     wiederverwendet.
+
+9. CO2-Berechnungen
+   - Die Umrechnung der Lebenszyklus-Emissionen in Megatonnen wurde korrigiert.
+   - Richtig ist:
+     MWh * g/kWh / 1.000.000.000 = Millionen Tonnen CO2-Aequivalent.
+   - Die alte Division durch 1.000.000 war um Faktor 1.000 zu hoch.
+   - Zeitpunkte ohne Stromerzeugung verursachen keine Division durch null mehr.
+   - Polen wurde in den abschliessenden Laendervergleich aufgenommen.
+   - Titel und Konsolentext sprechen jetzt von ausgewaehlten europaeischen
+     Laendern statt von globalen Emissionen.
+
+10. Monatsdaten und Diagramme
+    - Feste Zuweisungen von genau zwoelf Monatsnamen wurden durch reindex()
+      und eine zentrale MONATSNAMEN-Zuordnung ersetzt.
+    - Fehlende Monate verursachen dadurch keinen Laengenfehler mehr.
+    - Das Tagesenergie-Diagramm ist jetzt korrekt als aktueller Monat
+      beschriftet.
+    - Leere Monats-, Wind-, Erneuerbaren- und CO2-Daten erzeugen keine
+      fehlerhaften Diagramme mehr.
+    - Die Ausgabe "Generation aktuelle Woche" wurde zu
+      "Generation vorherige vollstaendige Woche" korrigiert.
+
+11. Vorladen
+    - Die Vorladefunktion verwendet fuer den aktuellen Monat denselben
+      Zeitraum wie die spaetere Monatsanalyse.
+    - Der Endzeitpunkt wird auf volle Stunden gerundet.
+    - Doppelte Importe wurden entfernt.
+
+12. Fehlerbehandlung
+    - Breite "except Exception"-Bloecke wurden durch gezielte Behandlung von
+      ENTSO-E-, Netzwerk-, Datei- und Datenfehlern ersetzt.
+    - NoMatchingDataError wird separat als fehlende Daten gemeldet.
+    - Unerwartete Programmierfehler werden nicht mehr still verschluckt.
+
+13. Abhaengigkeiten
+    - requests wurde requirements.txt hinzugefuegt, weil RequestException in
+      der gezielten Netzwerkfehlerbehandlung verwendet wird.
+    - python-dotenv wurde ergaenzt, damit VS Code den Token automatisch aus
+      der lokalen, ignorierten Datei .env liest.
+    - requirements.txt, environment.yml, setup_local.sh, RUN_LOCAL.md und
+      README.md verwenden jetzt konsistent .venv und dieselben Notebook-Pakete.
+
+14. Abschliessender Audit
+    - Der aktuelle Monat beginnt jetzt am ersten Tag um 00:00 Uhr.
+    - Leere Heatmaps werden ohne seaborn-Absturz uebersprungen.
+    - Fossil Coal-derived gas, Fossil Oil shale, Fossil Peat und Marine sind
+      in den CO2-Faktoren abgedeckt.
+    - Energy storage wird aus der Primaererzeugung entfernt, damit Speicher-
+      entladung die CO2-Intensitaet nicht kuenstlich senkt.
+    - Unbekannte zukuenftige Energietraeger werden sichtbar gemeldet und mit
+      dem Other-Faktor statt still mit null bewertet.
+
+VALIDIERUNG
+- Notebook-JSON ist gueltig.
+- 19 normale Python-Codezellen wurden erfolgreich mit ast.parse geprueft.
+- Die eine IPython-Magic-Zelle mit %pip wurde dabei erwartungsgemaess
+  uebersprungen.
+- git diff --check meldet keine Formatfehler.
+- Synthetische Tests waren erfolgreich fuer:
+  - gemischte 15-Minuten- und Stundenintervalle,
+  - Entfernung von Verbrauchsspalten,
+  - Zusammenfassung doppelter Erzeugungsspalten,
+  - eindeutige Cache-Schluessel,
+  - korrekte CO2-Umrechnung in Megatonnen.
+- Ein kompletter API-freier Notebook-Lauf mit realistisch aufgebauten
+  Ersatzdaten war erfolgreich und erzeugte 18 Testdiagramme.
+- Alle 132 vorhandenen Cache-Dateien waren lesbar.
+- Die real vorhandenen Erzeugungstypen 2025 sind im CO2-Mapping abgedeckt.
+- Ein neuer kompletter Live-Download gegen die ENTSO-E-API wurde nicht
+  ausgefuehrt; historische Berechnungen wurden mit den echten Cache-Daten
+  plausibilisiert.
+
+AKTUELLER ARBEITSSTAND
+- analyse.ipynb ist geaendert.
+- requirements.txt ist geaendert.
+- environment.yml, setup_local.sh, RUN_LOCAL.md und README.md wurden mit der
+  .venv-/ .env-Konfiguration synchronisiert.
+- Die Aenderungen sind noch nicht committed.
+
+HINWEISE FUER WEITERE ARBEIT
+- Bestehende Kommentare und "# ANGEPASST:"-Hinweise nicht ohne Ruecksprache
+  entfernen.
+- Der bereits im Chat und Screenshot sichtbare API-Token sollte im
+  ENTSO-E-Konto widerrufen und in .env durch einen neuen ersetzt werden.
+- Fuer einen echten End-to-End-Test das Notebook in Reihenfolge mit aktivem
+  .venv-Kernel ausfuehren und API-Ausgaben sowie neu erzeugte Diagramme pruefen.

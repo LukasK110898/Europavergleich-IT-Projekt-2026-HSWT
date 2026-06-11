@@ -10,9 +10,13 @@ Lokale Ausführung (kurze Anleitung)
    chmod +x setup_local.sh
    ./setup_local.sh
 
-3) Jupyter starten (nach Aktivierung der venv):
+3) In der Datei `.env` den ENTSO-E-Token eintragen:
 
-   source venv/bin/activate
+   ENTSOE_API_TOKEN=DEIN_ENTSOE_API_TOKEN
+
+4) Jupyter starten (nach Aktivierung der .venv):
+
+   source .venv/bin/activate
    jupyter notebook
 
 Dann im Browser `analyse.ipynb` öffnen.

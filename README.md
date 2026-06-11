@@ -55,7 +55,7 @@ Bevor ihr das Notebook ausführt, müsst ihr **einmalig** eine Bibliothek nachin
 2. Tippt folgenden Befehl in die Zelle:
 
 ```python
-!pip install entsoe-py matplotx -q
+!pip install entsoe-py matplotx python-dotenv -q
 ```
 
 3. Führt die Zelle aus, indem ihr auf den **Play-Button** links neben der Zelle klickt (oder `Shift + Enter` drückt)
@@ -64,6 +64,15 @@ Bevor ihr das Notebook ausführt, müsst ihr **einmalig** eine Bibliothek nachin
 > **Warum nur diese Pakete?** Alles andere (`pandas`, `matplotlib`, `seaborn`) ist in Colab bereits vorinstalliert. `matplotx` liefert das alternative "onedark"-Diagramm-Design.
 
 > **Wichtig:** Diese Zelle muss nach jedem Neustart der Colab-Sitzung einmal wiederholt werden. Colab "vergisst" installierte Pakete nach einer Weile.
+
+5. Erstellt vor dem Notebook-Code eine weitere Zelle für den API-Token:
+
+```python
+import os
+os.environ["ENTSOE_API_TOKEN"] = "DEIN_ENTSOE_API_TOKEN"
+```
+
+Diese Colab-Zelle nicht zusammen mit dem persönlichen Token veröffentlichen.
 
 ---
 
@@ -106,7 +115,7 @@ Jede API-Abfrage wird nach dem ersten Download als Datei im Ordner `daten_cache/
 
 Direkt nach der Länder-Definition gibt es eine Zelle, die **alle** benötigten Daten mit mehreren gleichzeitigen Abfragen in den Cache lädt. Da die API-Abfragen reine Wartezeit sind, ist der erste Durchlauf damit ca. 4–5x schneller. Alle späteren Zellen finden die Daten dann fertig im Cache vor.
 
-**API-Token:** Der Schlüssel für die ENTSO-E API kann über die Umgebungsvariable `ENTSOE_API_TOKEN` gesetzt werden (empfohlen), ansonsten wird der im Notebook hinterlegte Wert benutzt.
+**API-Token:** Lokal wird der Schlüssel automatisch aus der Datei `.env` gelesen. Die Datei ist durch `.gitignore` geschützt und wird nicht auf GitHub hochgeladen. Als Vorlage dient `.env.example`.
 
 ---
 
@@ -157,16 +166,18 @@ git clone <repo-url>
 cd Europavergleich-IT-Projekt-2026
 
 # 2. Virtuelle Umgebung erstellen (isoliert Pakete vom Rest des Systems)
-python -m venv venv
+python -m venv .venv
 
 # 3. Umgebung aktivieren
-venv\Scripts\activate        # Windows
-source venv/bin/activate     # Mac / Linux
+.venv\Scripts\activate        # Windows
+source .venv/bin/activate     # Mac / Linux
 
 # 4. Pakete installieren
 pip install -r requirements.txt
 
-# 5. Jupyter starten
+# 5. `.env.example` als `.env` speichern und den ENTSO-E-Token eintragen
+
+# 6. Jupyter starten
 jupyter notebook
 ```
 
