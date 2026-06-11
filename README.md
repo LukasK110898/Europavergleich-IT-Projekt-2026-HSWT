@@ -21,6 +21,27 @@ Jeder Abschnitt beginnt mit einer Markdown-Überschrift, die Zweck und Ergebnis 
 
 ---
 
+## Eingesetzte Werkzeuge & Arbeitsweise (Transparenz)
+
+Die Analyse und die schrittweise Fehlerbehebung wurden mit Unterstützung mehrerer KI-Werkzeuge erarbeitet:
+
+- **Claude Code** (teilweise mit dem Modell **Fable 5**)
+- **ChatGPT 5.5 / Codex**
+- **Gemini Pro**
+- **VS Code** als Entwicklungsumgebung
+
+Wir Studierende haben diese Werkzeuge genutzt, um
+
+- Fehler zu finden und zu beheben, die uns aufgefallen sind,
+- Diagramm-Darstellungen zu verbessern, die uns nicht gefallen haben,
+- Code-Abschnitte erklären zu lassen, die wir nicht verstanden haben,
+
+und die Ergebnisse anschließend gebündelt zusammenzufassen.
+
+**Aufbau und Ablauf des Codes wurden allein durch die Studierenden bestimmt.** Die Werkzeuge dienten der Umsetzung, Erklärung und Qualitätssicherung – die inhaltlichen und strukturellen Entscheidungen liegen bei uns.
+
+---
+
 ## Was ist ein Jupyter Notebook?
 
 Ein Jupyter Notebook (die Datei `analyse.ipynb`) ist eine interaktive Umgebung, in der Python-Code und Ergebnisse (Tabellen, Diagramme) direkt nebeneinander angezeigt werden. Man führt den Code in einzelnen "Zellen" aus – Schritt für Schritt.
