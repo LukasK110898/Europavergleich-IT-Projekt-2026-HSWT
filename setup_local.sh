@@ -12,11 +12,6 @@ echo "Aktiviere Umgebung..."
 source venv/bin/activate
 echo "Upgrade pip und Installation der Abhängigkeiten..."
 pip install --upgrade pip
-if [ -f requirements_clean.txt ]; then
-  pip install -r requirements_clean.txt
-else
-  echo "requirements_clean.txt nicht gefunden, versuche requirements.txt" 
-  pip install -r requirements.txt || true
-fi
+pip install -r requirements.txt
 
 echo "Fertig. Umgebung aktivieren mit: source venv/bin/activate"

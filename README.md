@@ -90,13 +90,33 @@ Die erzeugten Diagramme werden in Colab im temporären Dateispeicher abgelegt. U
 
 ---
 
+## Performance: Daten-Cache & paralleles Vorladen
+
+Das Notebook holt seine Daten von der ENTSO-E API – das ist der mit Abstand langsamste Teil. Damit nicht bei jedem Durchlauf alles neu heruntergeladen wird, sind zwei Optimierungen eingebaut:
+
+**1. Festplatten-Cache (`daten_cache/`)**
+
+Jede API-Abfrage wird nach dem ersten Download als Datei im Ordner `daten_cache/` gespeichert. Bei jedem weiteren Durchlauf – auch nach einem Kernel-Neustart – kommen die Daten von der Festplatte und das Notebook läuft in Sekunden statt Minuten.
+
+- **Daten aktualisieren:** Einfach den Ordner `daten_cache/` löschen, dann wird alles neu von der API geladen. Historische Jahre (2023, 2024) ändern sich nicht mehr – die kann man dauerhaft im Cache lassen.
+- Der Ordner steht in der `.gitignore` und landet nicht auf GitHub.
+- In Google Colab wird der Cache beim Beenden der Sitzung gelöscht (temporärer Speicher) – innerhalb einer Sitzung beschleunigt er aber trotzdem jeden weiteren Durchlauf.
+
+**2. Turbo-Zelle (paralleles Vorladen)**
+
+Direkt nach der Länder-Definition gibt es eine Zelle, die **alle** benötigten Daten mit mehreren gleichzeitigen Abfragen in den Cache lädt. Da die API-Abfragen reine Wartezeit sind, ist der erste Durchlauf damit ca. 4–5x schneller. Alle späteren Zellen finden die Daten dann fertig im Cache vor.
+
+**API-Token:** Der Schlüssel für die ENTSO-E API kann über die Umgebungsvariable `ENTSOE_API_TOKEN` gesetzt werden (empfohlen), ansonsten wird der im Notebook hinterlegte Wert benutzt.
+
+---
+
 ## Häufige Probleme
 
 | Problem | Lösung |
 |---|---|
 | `ModuleNotFoundError: No module named 'entsoe'` | Schritt 3 wiederholen – die Installationszelle nochmal ausführen |
 | Colab fragt nach Google-Login | Einloggen mit einem Google-Account |
-| Zelle läuft sehr lange | ENTSO-E API lädt Daten – das kann 1–2 Minuten dauern, einfach warten |
+| Zelle läuft sehr lange | ENTSO-E API lädt Daten – beim ersten Durchlauf kann das 1–2 Minuten dauern. Ab dem zweiten Durchlauf kommen die Daten aus dem Cache (siehe Abschnitt "Performance") |
 | Warnung "Notebook nicht von Google" | Auf "Trotzdem ausführen" klicken |
 | Diagramme werden nicht angezeigt | Sicherstellen, dass alle Zellen von oben nach unten ausgeführt wurden |
 
@@ -121,7 +141,7 @@ venv\Scripts\activate        # Windows
 source venv/bin/activate     # Mac / Linux
 
 # 4. Pakete installieren
-pip install entsoe-py pandas matplotlib seaborn notebook
+pip install -r requirements.txt
 
 # 5. Jupyter starten
 jupyter notebook

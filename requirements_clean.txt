@@ -1,5 +1,0 @@
-entsoe-py
-pandas
-matplotlib
-seaborn
-notebook
