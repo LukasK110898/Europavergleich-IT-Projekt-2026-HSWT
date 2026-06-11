@@ -110,6 +110,16 @@ Direkt nach der Länder-Definition gibt es eine Zelle, die **alle** benötigten 
 
 ---
 
+## Datenqualität: Zwei Fallen der ENTSO-E API
+
+Beim Arbeiten mit den Rohdaten sind uns zwei Fallen aufgefallen, die der Code explizit behandelt (gutes Material für die Codesicht in der Präsentation):
+
+1. **Auflösungswechsel mitten im Jahr:** Manche Länder stellen ihre Meldeauflösung unterjährig von 60 auf 15 Minuten um (Polen 2024, Norwegen 2025). Wer mit einem festen Zeitintervall rechnet, zählt den 15-Minuten-Teil vierfach – Polens Jahreslast 2024 wäre dann 426 statt 164 TWh. Die Funktion `berechne_energie_mwh()` gewichtet deshalb **jeden Datenpunkt mit seinem echten Zeitintervall**.
+
+2. **Lokale Zeitzonen pro Land:** ENTSO-E liefert jedes Land in seiner eigenen Zeitzone (Europe/Berlin, Europe/Paris, …). Beim Zusammenfügen mehrerer Länder mit `pd.concat` konvertiert pandas still auf UTC – dadurch verrutschten vorher alle Monatsgrenzen (der Januar fiel weg, der „Dezember" war fast leer). Deshalb werden alle Daten **direkt nach dem Laden einheitlich auf UTC** umgestellt.
+
+---
+
 ## Häufige Probleme
 
 | Problem | Lösung |
