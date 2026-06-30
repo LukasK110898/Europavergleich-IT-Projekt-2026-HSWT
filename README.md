@@ -38,13 +38,13 @@ Wir Studierende haben diese Werkzeuge genutzt, um
 
 und die Ergebnisse anschließend gebündelt zusammenzufassen.
 
-**Aufbau und Ablauf des Codes wurden allein durch die Studierenden bestimmt.** Die Werkzeuge dienten der Umsetzung, Erklärung und Qualitätssicherung – die inhaltlichen und strukturellen Entscheidungen liegen bei uns.
+**Aufbau und Ablauf des Codes wurden allein durch die Studierenden bestimmt.** Die Werkzeuge dienten der Umsetzung, Erklärung und Qualitätssicherung, die inhaltlichen und strukturellen Entscheidungen liegen bei uns.
 
 ---
 
 ## Was ist ein Jupyter Notebook?
 
-Ein Jupyter Notebook (die Datei `analyse.ipynb`) ist eine interaktive Umgebung, in der Python-Code und Ergebnisse (Tabellen, Diagramme) direkt nebeneinander angezeigt werden. Man führt den Code in einzelnen "Zellen" aus – Schritt für Schritt.
+Ein Jupyter Notebook (die Datei `analyse.ipynb`) ist eine interaktive Umgebung, in der Python-Code und Ergebnisse (Tabellen, Diagramme) direkt nebeneinander angezeigt werden. Man führt den Code in einzelnen "Zellen" aus, Schritt für Schritt.
 
 ---
 
